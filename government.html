@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Vote Count</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        h1 {
+            margin-top: 30px;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 10px;
+            width: 250px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .votes {
+            margin-top: 30px;
+            display: none;
+        }
+        .votes p {
+            font-size: 18px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Login for Voting Results</h1>
+    <form id="adminForm">
+        <input type="text" id="adminName" placeholder="Enter your name" required><br>
+        <input type="password" id="adminId" placeholder="Enter Password" required><br>
+        <button type="button" onclick="adminLogin()">Login</button>
+    </form>
+
+    <div class="votes" id="votesSection">
+        <h2>Vote Counts</h2>
+        <p id="amanVotes">AMAN: 0 votes</p>
+        <p id="geetaVotes">GEETA: 0 votes</p>
+        <p id="sravanVotes">SRAVAN: 0 votes</p>
+    </div>
+
+    <script>
+        function adminLogin() {
+            const adminName = document.getElementById('adminName').value.trim();
+            const adminId = document.getElementById('adminId').value.trim();
+
+            if (adminName === 'Abhinav' && adminId === 'prabhinav') {
+                displayVoteCounts();
+                document.getElementById('adminForm').style.display = 'none';
+                document.getElementById('votesSection').style.display = 'block';
+            } else {
+                alert("Unauthorized access! Only Abhinav with the correct College ID can view the votes.");
+            }
+        }
+
+
+        function displayVoteCounts() {
+            const candidateVotes = JSON.parse(localStorage.getItem('candidateVotes')) || { AMAN: 0, GEETA: 0, SRAVAN: 0 };
+
+            document.getElementById('amanVotes').textContent = `AMAN: ${candidateVotes.AMAN} votes`;
+            document.getElementById('geetaVotes').textContent = `GEETA: ${candidateVotes.GEETA} votes`;
+            document.getElementById('sravanVotes').textContent = `SRAVAN: ${candidateVotes.SRAVAN} votes`;
+        }
+
+    </script>
+
+</body>
+</html>
