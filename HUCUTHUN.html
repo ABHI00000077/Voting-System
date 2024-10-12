@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting System</title>
+    <link rel="stylesheet" href="style.css">    
+</head>
+<body>
+
+    <h1 id="head">Voting System</h1>
+    <form id="voterForm">
+        <input type="text" id="voterName" placeholder="Enter your name" required><br>
+        <input type="text" id="collegeId" placeholder="Enter your College ID" required><br>
+        <button type="button" onclick="submitVote()">Submit</button>
+    </form>
+
+    <div class="candidates" id="candidatesSection" style="display: none;">
+        <h2>Select a Candidate</h2>
+        <button class="candidate-button" onclick="vote('AMAN')">Vote for AMAN</button>
+        <button class="candidate-button" onclick="vote('GEETA')">Vote for GEETA</button>
+        <button class="candidate-button" onclick="vote('SRAVAN')">Vote for SRAVAN</button>s
+    </div>
+
+    <div class="result" id="resultMessage"></div>
+    <script>
+        // Store voting data in localStorage
+        const votedVoters = JSON.parse(localStorage.getItem('votedVoters')) || {};
+        const candidateVotes = JSON.parse(localStorage.getItem('candidateVotes')) || { AMAN: 0, GEETA: 0, SRAVAN: 0 };
+
+        // Submit voter info
+        function submitVote() {
+            const voterName = document.getElementById('voterName').value.trim();
+            const collegeId = document.getElementById('collegeId').value.trim();
+
+            if (voterName === "" || collegeId === "") {
+                alert("Please enter your name and college ID.");
+                return;
+            }
+
+            if (votedVoters[collegeId]) {
+                document.getElementById('resultMessage').textContent = "You have already voted!";
+            } else {
+                localStorage.setItem('currentVoter', JSON.stringify({ voterName, collegeId }));
+                document.getElementById('voterForm').style.display = 'none';
+                document.getElementById('candidatesSection').style.display = 'block';
+            }
+        }
+
+        // Vote for a candidate
+        function vote(candidate) {
+            const currentVoter = JSON.parse(localStorage.getItem('currentVoter'));
+
+            if (currentVoter && !votedVoters[currentVoter.collegeId]) {
+                votedVoters[currentVoter.collegeId] = currentVoter.voterName;
+                localStorage.setItem('votedVoters', JSON.stringify(votedVoters));
+
+                // Increment candidate's votes
+                candidateVotes[candidate]++;
+                localStorage.setItem('candidateVotes', JSON.stringify(candidateVotes));
+
+                document.getElementById('resultMessage').textContent = `Thank you ${currentVoter.voterName}, your vote for ${candidate} has been recorded!`;
+                document.getElementById('candidatesSection').style.display = 'none';
+            } else {
+                document.getElementById('resultMessage').textContent = "You have already voted!";
+            }
+        }
+
+    </script>
+
+</body>
+</html>
