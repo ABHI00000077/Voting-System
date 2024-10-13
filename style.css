@@ -54,6 +54,7 @@ button:hover {
     color:aqua;
     background-color:#022d65;
     border: 3px solid aqua;
+    border-radius: 20px;
 }
 #first:hover{
     font-size: xx-large; 
@@ -68,6 +69,7 @@ button:hover {
     color:aqua;
     background-color:#022d65;
     border: 3px solid aqua;
+    border-radius: 20px;
 }
 #second:hover{
     font-size: xx-large; 
